@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block content %}
+    <div class="container mt-3">
+    {{ render_form(form, action='/top-cities-search', method='post') }}
+</div>
+
+{% endblock %}

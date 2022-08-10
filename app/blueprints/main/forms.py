@@ -4,6 +4,6 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
 
-class SearchForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    submit = SubmitField('Add')
+class TopCitiesSearchForm(FlaskForm):
+    state = StringField('State Abbrev.', validators=[DataRequired()])
+    submit = SubmitField('Get Top Citites')

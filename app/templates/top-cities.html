@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for city in context %}
+        
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{ city['city'] }}</h4>
+                    <p class="card-text">{{ city['state'] }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Total Listings: {{ city['total_listing'] }}</li>
+                    <li class="list-group-item">Occupancy: {{ city['occupancy'] }}</li>
+                    <li class="list-group-item">Occ-listing: {{ city['occ_listing'] }}</li>
+                </ul>
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% endblock %}
+
+<!-- "city": "Oakland",
+        "state": "CA",
+        "occupancy": 67.27373939,
+        "total_listing": 10308,
+        "occ_listing": 693457.70566304 -->
