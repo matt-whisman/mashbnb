@@ -5,16 +5,16 @@
 
     {% for city in context %}
         
-        <div class="container">
+        <div class="container my-3">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ city['city'] }}</h4>
-                    <p class="card-text">{{ city['state'] }}</p>
+                    <h4 class="card-title">{{ context[city]['city'] }}</h4>
+                    <p class="card-text">{{ context[city]['state'] }}</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Total Listings: {{ city['total_listing'] }}</li>
-                    <li class="list-group-item">Occupancy: {{ city['occupancy'] }}</li>
-                    <li class="list-group-item">Occ-listing: {{ city['occ_listing'] }}</li>
+                    <li class="list-group-item">Total Listings: {{ context[city]['total_listing'] }}</li>
+                    <li class="list-group-item">Occupancy: {{ context[city]['occupancy'] }}</li>
+                    <li class="list-group-item">Occ-listing: {{ context[city]['occ_listing'] }}</li>
                 </ul>
             </div>
         </div>

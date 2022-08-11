@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends 'base.html' %} 
+
+{% block content %}
+
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Airbnb Rates</h4>
+                <p class="card-text">Rates for {{ context['city'] }}, {{ context['state']}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Studio: {{ context['studio'] }}
+                </li>
+                <li class="list-group-item">
+                    One-Room: {{ context['one_room'] }}
+                </li>
+                <li class="list-group-item">
+                    Two-Room: {{ context['two_room'] }}
+                </li>
+                <li class="list-group-item">
+                    Three-Room: {{ context['three_room'] }}
+                </li>
+                <li class="list-group-item">
+                    Four-Room: {{ context['four_room'] }}
+                </li>
+                <li class="list-group-item">
+                    Sample Count: {{ context['sample_count'] }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

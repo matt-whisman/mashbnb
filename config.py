@@ -13,3 +13,4 @@ class Config:
         'SQLALCHEMY_TRACK_MODIFICATIONS')
     SECRET_KEY = os.getenv('SECRET_KEY')
     DEBUG_TB_INTERCEPT_REDIRECTS = False
+    RAPIDAPI_KEY = os.getenv('RAPIDAPI_KEY')

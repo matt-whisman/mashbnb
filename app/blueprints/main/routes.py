@@ -1,11 +1,14 @@
 import requests
 from app import db
-from app.blueprints.main.forms import TopCitiesSearchForm
+from app.blueprints.main.forms import StateSearchForm, CityStateSearchForm
 from app.blueprints.main.models import User
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
+from config import Config
 
 from . import bp as app
+
+rapid_key = Config.RAPIDAPI_KEY
 
 
 @app.route('/')
@@ -102,16 +105,16 @@ cities_context = {
 
 
 @login_required
-@app.route('/top-city-search', methods=['get', 'post'])
+@app.route('/top-cities-search', methods=['get', 'post'])
 def top_cities_search():
     url = "https://mashvisor-api.p.rapidapi.com/trends/cities"
-    form = TopCitiesSearchForm()
+    form = StateSearchForm()
     try:
         if form.validate_on_submit():
             # state = form.state.data
             # querystring = {"state": f"{state}", "items": "5", "page": "1"}
             # headers = {
-            #     "X-RapidAPI-Key": "6918db1dd3msh4eb7255e960164dp1d2d18jsn9991606b9200",
+            #     "X-RapidAPI-Key": rapid_key,
             #     "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
             # }
             # response = requests.request(
@@ -128,3 +131,100 @@ def top_cities_search():
         form.state.data = ''
         return render_template('top-cities-search.html', form=form)
     return render_template('top-cities-search.html', form=form)
+
+
+rates_response = {
+    "status": "success",
+    "content": {
+        "rental_rates": {
+            "studio_value": 2972,
+            "one_room_value": 3292,
+            "two_room_value": 4055,
+            "three_room_value": 5710,
+            "four_room_value": 5914
+        },
+        "sample_count": 213,
+        "detailed": [  # 5 items 0-4
+            {
+                "state": "CA",
+                "city": "Los Angeles",
+                "neighborhood": None,
+                "zipcode": "90291",
+                "beds": "0",
+                "count": 73,
+                "min": 1452,
+                "max": 4490,
+                "avg": 3019.3150684931506,
+                "median": 2972,
+                "adjusted_rental_income": 3376.250000000001,
+                "median_night_rate": 125,
+                "median_occupancy": 81
+            },
+        ]
+    }
+}
+
+rates_context = {
+    "city": "Los Angeles",
+    "state": "CA",
+    "studio": 2972,
+    "one_room": 3292,
+    "two_room": 4055,
+    "three_room": 5710,
+    "four_room": 5914,
+    "sample_count": 213
+}
+
+
+@login_required
+@app.route('/rates-search', methods=['get', 'post'])
+def rates_search():
+    url = "https://mashvisor-api.p.rapidapi.com/rental-rates"
+    form = CityStateSearchForm()
+    try:
+        if form.validate_on_submit():
+            # state = form.state.data
+            # city = form.city.data
+            # querystring = {"source": "airbnb", "state": f"{state}",
+            #             "city": f"{city}"}
+            # headers = {
+            #     "X-RapidAPI-Key": rapid_key,
+            #     "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
+            # }
+            # response = requests.request(
+            #     "GET", url, headers=headers, params=querystring).json()
+            # rates = {}
+            # rates['city'] = city
+            # rates['state'] = state
+            # rates['studio'] = response['content']['rental_rates']['studio_value']
+            # rates['one_room'] = response['content']['rental_rates']['one_room_value']
+            # rates['two_room'] = response['content']['rental_rates']['two_room_value']
+            # rates['three_room'] = response['content']['rental_rates']['three_room_value']
+            # rates['four_room'] = response['content']['rental_rates']['four_room_value']
+            # rates['sample_count'] = response['content']['sample_count']
+            return render_template('rates.html', context=rates_context)
+    except Exception:
+        flash("Invalid input")
+        form.state.data = ''
+        return render_template('rates-search.html', form=form)
+    return render_template('rates-search.html', form=form)
+
+
+@login_required
+@app.route('/city-summary', methods=['get', 'post'])
+def city_summary():
+    url = "https://mashvisor-api.p.rapidapi.com/trends/summary/"
+    form = CityStateSearchForm()
+    try:
+        if form.validate_on_submit():
+            state = form.state.data
+            city = form.city.data
+            FL/Miami % 20Beach
+            headers = {
+                "X-RapidAPI-Key": rapid_key,
+                "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
+            }
+            response = requests.request("GET", url, headers=headers)
+            return render_template('city-summary.html', context=summary_context)
+    
+    
