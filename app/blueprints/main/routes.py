@@ -111,21 +111,21 @@ def top_cities_search():
     form = StateSearchForm()
     try:
         if form.validate_on_submit():
-            # state = form.state.data.upper()
-            # querystring = {"state": f"{state}", "items": "5", "page": "1"}
-            # headers = {
-            #     "X-RapidAPI-Key": rapid_key,
-            #     "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
-            # }
-            # response = requests.request(
-            #     "GET", url, headers=headers, params=querystring).json()
-            # cities = {}
-            # cities['city1'] = response['content']['cities'][0]
-            # cities['city2'] = response['content']['cities'][1]
-            # cities['city3'] = response['content']['cities'][2]
-            # cities['city4'] = response['content']['cities'][3]
-            # cities['city5'] = response['content']['cities'][4]
-            return render_template('top-cities.html', context=cities_context)
+            state = form.state.data.upper()
+            querystring = {"state": f"{state}", "items": "5", "page": "1"}
+            headers = {
+                "X-RapidAPI-Key": rapid_key,
+                "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
+            }
+            response = requests.request(
+                "GET", url, headers=headers, params=querystring).json()
+            cities = {}
+            cities['city1'] = response['content']['cities'][0]
+            cities['city2'] = response['content']['cities'][1]
+            cities['city3'] = response['content']['cities'][2]
+            cities['city4'] = response['content']['cities'][3]
+            cities['city5'] = response['content']['cities'][4]
+            return render_template('top-cities.html', context=cities)
     except Exception:
         flash("Invalid input")
         form.state.data = ''
@@ -136,7 +136,7 @@ def top_cities_search():
 rates_response = {
     "status": "success",
     "content": {
-        "rental_rates": {
+        "retnal_rates": {
             "studio_value": 2972,
             "one_room_value": 3292,
             "two_room_value": 4055,
@@ -183,26 +183,29 @@ def rates_search():
     form = CityStateSearchForm()
     try:
         if form.validate_on_submit():
-            # state = form.state.data.upper()
-            # city = form.city.data
-            # querystring = {"source": "airbnb", "state": f"{state}",
-            #             "city": f"{city}"}
-            # headers = {
-            #     "X-RapidAPI-Key": rapid_key,
-            #     "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
-            # }
-            # response = requests.request(
-            #     "GET", url, headers=headers, params=querystring).json()
-            # rates = {}
-            # rates['city'] = city
-            # rates['state'] = state
-            # rates['studio'] = response['content']['rental_rates']['studio_value']
-            # rates['one_room'] = response['content']['rental_rates']['one_room_value']
-            # rates['two_room'] = response['content']['rental_rates']['two_room_value']
-            # rates['three_room'] = response['content']['rental_rates']['three_room_value']
-            # rates['four_room'] = response['content']['rental_rates']['four_room_value']
-            # rates['sample_count'] = response['content']['sample_count']
-            return render_template('rates.html', context=rates_context)
+            state = form.state.data.upper()
+            city = form.city.data.title()
+            querystring = {"source": "airbnb", "state": f"{state}",
+                           "city": f"{city}"}
+            headers = {
+                "X-RapidAPI-Key": rapid_key,
+                "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
+            }
+            response = requests.request(
+                "GET", url, headers=headers, params=querystring).json()
+            print(response)
+            rates = {}
+            rates['city'] = city
+            rates['state'] = state
+            # there is a misspellin in the api, rental_rates is actually 'retnal_rates'
+            rates['studio'] = response['content']['retnal_rates']['studio_value']
+            rates['one_room'] = response['content']['retnal_rates']['one_room_value']
+            rates['two_room'] = response['content']['retnal_rates']['two_room_value']
+            rates['three_room'] = response['content']['retnal_rates']['three_room_value']
+            rates['four_room'] = response['content']['retnal_rates']['four_room_value']
+            rates['sample_count'] = response['content']['sample_count']
+            flash(rates)
+            return render_template('rates.html', context=rates)
     except Exception:
         flash("Invalid input")
         form.state.data = ''
@@ -239,20 +242,21 @@ def city_summary_search():
     form = CityStateSearchForm()
     try:
         if form.validate_on_submit():
-            # state = form.state.data.upper()
-            # city = form.city.data
-            # city_url = city.replace(' ', '%20')
-            # url += f"{state}/{city_url}"
-            # headers = {
-            #     "X-RapidAPI-Key": rapid_key,
-            #     "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
-            # }
-            # response = requests.request("GET", url, headers=headers)
-            # city_summary = {}
-            # city_summary['city'] = city
-            # city_summary['state']
-            # city_summary = response['content']
-            return render_template('city-summary.html', context=summary_context)
+            state = form.state.data.upper()
+            city = form.city.data.title()
+            city_url = city.replace(' ', '%20')
+            url += f"{state}/{city_url}"
+            headers = {
+                "X-RapidAPI-Key": rapid_key,
+                "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
+            }
+            response = requests.request("GET", url, headers=headers).json()
+            print(response)
+            city_summary = {}
+            city_summary = response['content']
+            city_summary['city'] = city
+            city_summary['state'] = state
+            return render_template('city-summary.html', context=city_summary)
     except Exception:
         flash("Invalid input")
         form.state.data = ''
