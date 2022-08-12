@@ -111,7 +111,7 @@ def top_cities_search():
     form = StateSearchForm()
     try:
         if form.validate_on_submit():
-            # state = form.state.data
+            # state = form.state.data.upper()
             # querystring = {"state": f"{state}", "items": "5", "page": "1"}
             # headers = {
             #     "X-RapidAPI-Key": rapid_key,
@@ -183,7 +183,7 @@ def rates_search():
     form = CityStateSearchForm()
     try:
         if form.validate_on_submit():
-            # state = form.state.data
+            # state = form.state.data.upper()
             # city = form.city.data
             # querystring = {"source": "airbnb", "state": f"{state}",
             #             "city": f"{city}"}
@@ -210,21 +210,51 @@ def rates_search():
     return render_template('rates-search.html', form=form)
 
 
+summary = {
+    "status": "success",
+    "content": {
+        "active_neighborhoods": 17,
+        "investment_properties": 1475,
+        "airbnb_listings": 780,
+        "traditional_listings": 1490,
+        "avg_property_price": 821075.718,
+        "avg_price_per_sqft": 619.45463533,
+        "avg_days_on_market": 218.4112,
+        "avg_occupancy": 55.3341,
+        "avg_nightly_price": 150.6636,
+        "avg_airbnb_ROI": 0.3576789552493784,
+        "avg_airbnb_rental": 3297.268772468138,
+        "avg_traditional_ROI": -0.45838680145165633,
+        "avg_traditional_rental": 2678.689869765255
+    }
+}
+
+summary_context = summary['content']
+
+
 @login_required
-@app.route('/city-summary', methods=['get', 'post'])
-def city_summary():
+@app.route('/city-summary-search', methods=['get', 'post'])
+def city_summary_search():
     url = "https://mashvisor-api.p.rapidapi.com/trends/summary/"
     form = CityStateSearchForm()
     try:
         if form.validate_on_submit():
-            state = form.state.data
-            city = form.city.data
-            FL/Miami % 20Beach
-            headers = {
-                "X-RapidAPI-Key": rapid_key,
-                "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
-            }
-            response = requests.request("GET", url, headers=headers)
+            # state = form.state.data.upper()
+            # city = form.city.data
+            # city_url = city.replace(' ', '%20')
+            # url += f"{state}/{city_url}"
+            # headers = {
+            #     "X-RapidAPI-Key": rapid_key,
+            #     "X-RapidAPI-Host": "mashvisor-api.p.rapidapi.com"
+            # }
+            # response = requests.request("GET", url, headers=headers)
+            # city_summary = {}
+            # city_summary['city'] = city
+            # city_summary['state']
+            # city_summary = response['content']
             return render_template('city-summary.html', context=summary_context)
-    
-    
+    except Exception:
+        flash("Invalid input")
+        form.state.data = ''
+        return render_template('city-summary-search.html', form=form)
+    return render_template('city-summary-search.html', form=form)

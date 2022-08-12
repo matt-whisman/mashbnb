@@ -1,41 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {{ bootstrap.load_css() }}
+        <title>Mashbnb</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{ bootstrap.load_css() }}
-    <title>Mashbnb</title>
-</head>
+    <body>
+        <header>{% include 'header.html' %}</header>
 
-<body>
-    <header>
-        {% include 'header.html' %}
-    </header>
-
-    <main>
-        <div class="container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}" role="alert">
-                <strong>{{ message }}</strong>
+        <main>
+            {% with messages = get_flashed_messages(with_categories=true) %} {%
+            if messages %}
+            <div class="row">
+                <div class="col-md-12">
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        <a
+                            class="close"
+                            title="Close"
+                            href="#"
+                            data-dismiss="alert"
+                            >&times;</a
+                        >
+                        {{ message }}
+                    </div>
+                    <!-- end .alert -->
+                    {% endfor %}
+                </div>
+                <!-- end col-md -->
             </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-        </div>
-        {% block content %}
+            <!-- end row -->
+            {% endif %} {% endwith %} {% block content %}{% endblock %}
+        </main>
 
-        {% endblock content %}
-    </main>
-
-
-    <footer>
-        {% include 'footer.html' %}
-    </footer>
-    {{ bootstrap.load_js() }}
-</body>
-
+        <footer>{% include 'footer.html' %}</footer>
+        {{ bootstrap.load_js() }}
+    </body>
 </html>

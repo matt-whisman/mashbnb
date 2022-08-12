@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% extends 'base.html' %} 
+
+{% block content %}
+
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Summary of {{ context['city'] }}</h4>
+                <p class="card-text">{{ context['state'] }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Active neighborhoods: {{ context['active_neighborhoods'] }}
+                </li>
+                <li class="list-group-item">
+                    Airbnb listings: {{ context['airbnb_listings'] }}
+                </li>
+                <li class="list-group-item">
+                    Avg Airbnb ROI: {{ context['avg_airbnb_ROI'] }}
+                </li>
+                <li class="list-group-item">
+                    Avg Airbnb Rental: {{ context['avg_airbnb_ROI'] }}
+                </li>
+                <li class="list-group-item">
+                    Avg days on market: {{ context['avg_days_on_market'] }}
+                </li>
+                <li class="list-group-item">
+                    Avg nightly price: {{ context['avg_nightly_price'] }}
+                </li>
+                <li class="list-group-item">
+                    Avg occupancy: {{ context['avg_occupancy'] }}
+                </li>
+                <li class="list-group-item">
+                    Avg price per sqft: {{ context['avg_price_per_sqft'] }}
+                </li>
+                <li class="list-group-item">
+                    Avg property price: {{ context['avg_property_price'] }}
+                </li>
+                <li class="list-group-item">
+                    Avg traditional ROI: {{ context['avg_traditional_ROI'] }}
+                </li>
+                <li class="list-group-item">
+                    Avg traditional rental: {{ context['avg_traditional_rental'] }}
+                </li>
+                <li class="list-group-item">
+                    Num of investment properties: {{
+                    context['investment_properties'] }}
+                </li>
+                <li class="list-group-item">
+                    Num of traditional listings: {{ context['traditional_listings']
+                    }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+<!-- "active_neighborhoods": 17,
+        "airbnb_listings": 780,
+        "avg_airbnb_ROI": 0.3576789552493784,
+        "avg_airbnb_rental": 3297.268772468138,
+        "avg_days_on_market": 218.4112,
+        "avg_nightly_price": 150.6636,
+        "avg_occupancy": 55.3341,
+        "avg_price_per_sqft": 619.45463533,
+        "avg_property_price": 821075.718,
+        "avg_traditional_ROI": -0.45838680145165633,
+        "avg_traditional_rental": 2678.689869765255,
+        "city": "Miami Beach",
+        "investment_properties": 1475,
+        "state": "FL",
+        "traditional_listings": 1490-->
